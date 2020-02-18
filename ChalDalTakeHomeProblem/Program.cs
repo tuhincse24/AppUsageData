@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace ChalDalTakeHomeProblem
 {
@@ -12,6 +14,12 @@ namespace ChalDalTakeHomeProblem
                 .AddLogging()
                 .AddSingleton<IDataLoader, DataLoader>()
                 .BuildServiceProvider();
+
+            //Configure AppSettings
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+            var configuration = builder.Build();
 
             //Configure console logging
             serviceProvider
