@@ -17,32 +17,37 @@ namespace ChalDalTakeHomeProblem
                 .AddJsonFile("appsettings.json");
             var configuration = builder.Build();
 
-            //Setup our DI
+            //Setup DI
             var serviceProvider = new ServiceCollection()
                 .AddLogging()
                 .AddSingleton<IDataLoader, DataLoader>()
                 .AddSingleton<IUsersServiceProvider, UsersServiceProvider>()
-                //.AddSingleton<IConfiguration, Configuration>()
                 .AddSingleton<SuperActiveUsersService>()
+                .AddSingleton<ActiveUsersService>()
+                .AddSingleton<BoredUsersService>()
                 .AddSingleton(provider => configuration)
                 .BuildServiceProvider();
-
-            //Configure console logging
-            serviceProvider
-                .GetService<ILoggerFactory>();
-                //.AddConsole(LogLevel.Debug);
 
             var logger = serviceProvider.GetService<ILoggerFactory>()
                 .CreateLogger<Program>();
             logger.LogDebug("Starting application");
 
-            //So the actual work here
+            //The actual work here
             var userServiceProvider = serviceProvider.GetService<IUsersServiceProvider>();
-            var userService = userServiceProvider.GetUserService("superactive");
-            var fromDate = Convert.ToDateTime(args[1]);
-            var toDate = Convert.ToDateTime(args[2]);
-            var users = userService.GetUsers(fromDate, toDate);
-            logger.LogDebug("All done!");
+            var userService = userServiceProvider.GetUserService(args[0]);
+            if (userService != null)
+            {
+                var fromDate = Convert.ToDateTime(args[1]);
+                var toDate = Convert.ToDateTime(args[2]);
+                var users = userService.GetUsers(fromDate, toDate);
+                Console.WriteLine($"List of comma- separated '{args[0].ToUpper()}' user ids: ({users})");
+            }
+            else
+            {
+                Console.WriteLine($"No service found for activity: {args[0]}");
+            }
+            Console.WriteLine("All done!");
+            Console.ReadLine();
         }
     }
 }

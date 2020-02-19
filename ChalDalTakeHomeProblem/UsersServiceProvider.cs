@@ -11,11 +11,17 @@ namespace ChalDalTakeHomeProblem
     public class UsersServiceProvider : IUsersServiceProvider
     {
         private readonly SuperActiveUsersService _superActiveUsersService;
+        private readonly ActiveUsersService _activeUsersService;
+        private readonly BoredUsersService _boredUserService;
         public UsersServiceProvider(
-            SuperActiveUsersService superActiveUsersService
+            SuperActiveUsersService superActiveUsersService,
+            ActiveUsersService activeUsersService,
+            BoredUsersService boredUserService
             )
         {
             _superActiveUsersService = superActiveUsersService;
+            _activeUsersService = activeUsersService;
+            _boredUserService = boredUserService;
         }
         public IUserService GetUserService(string userActivityStatus)
         {
@@ -24,9 +30,9 @@ namespace ChalDalTakeHomeProblem
                 case "superactive":
                     return _superActiveUsersService;
                 case "active":
-                    return _superActiveUsersService;
-                case "board":
-                    return _superActiveUsersService;
+                    return _activeUsersService;
+                case "bored":
+                    return _boredUserService;
                 default:
                     return null;
             }
