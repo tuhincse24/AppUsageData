@@ -22,7 +22,7 @@ namespace ChalDalTakeHomeProblem
             var superActiveUserList = from item in allUsersWithMeal
                             where item.Date >= fromDate && item.Date <= toDate
                             group item by new { item.UserID } into g
-                            where g.Count() >= _superActiveMealCount
+                            where g.Count() > _superActiveMealCount
                            select g.Key.UserID;
             var users = String.Join(",", superActiveUserList);
             return users;
