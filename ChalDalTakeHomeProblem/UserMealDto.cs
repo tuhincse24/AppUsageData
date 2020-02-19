@@ -2,12 +2,11 @@
 
 namespace ChalDalTakeHomeProblem
 {
-    public class UserMealDishDto
+    public class UserMealDto
     {
         public int UserID { get; set; }
         public int DayID { get; set; }
         public DateTime Date { get; set; }
         public int MealID { get; set; }
-        public int DishID { get; set; }
     }
 }

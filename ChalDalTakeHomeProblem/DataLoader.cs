@@ -10,7 +10,7 @@ namespace ChalDalTakeHomeProblem
 {
     public interface IDataLoader
     {
-        List<UserMealDishDto>LoadData();
+        List<UserMealDto>LoadData();
     }
     public class DataLoader : IDataLoader
     {
@@ -23,16 +23,16 @@ namespace ChalDalTakeHomeProblem
             _dataPath = _configuration["DataPath"];
 
         }
-        public List<UserMealDishDto> LoadData()
+        public List<UserMealDto> LoadData()
         {
-            var userMealList = new List<UserMealDishDto>();
+            var userMealList = new List<UserMealDto>();
             foreach(var filePath in Directory.GetFiles(_dataPath).Where(f=>f.EndsWith(".json")))
             {
                 var userId = Path.GetFileNameWithoutExtension(filePath);
                 var calenDarObject = JsonConvert.DeserializeObject<CalendarData>(File.ReadAllText(filePath, Encoding.UTF8));
                 var dateWiseMeals = from dateId in calenDarObject.Calendar.DateToDayId
                                     join mealDay in calenDarObject.Calendar.mealIdToDayId on dateId.Value equals mealDay.Value
-                                    select new UserMealDishDto { UserID = Convert.ToInt32(userId), Date = dateId.Key, DayID = dateId.Value, MealID = mealDay.Key };
+                                    select new UserMealDto { UserID = Convert.ToInt32(userId), Date = dateId.Key, DayID = dateId.Value, MealID = mealDay.Key };
                 userMealList.AddRange(dateWiseMeals);
             }
             return userMealList;
