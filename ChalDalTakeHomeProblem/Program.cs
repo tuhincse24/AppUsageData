@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 
@@ -28,9 +27,7 @@ namespace ChalDalTakeHomeProblem
                 .AddSingleton(provider => configuration)
                 .BuildServiceProvider();
 
-            var logger = serviceProvider.GetService<ILoggerFactory>()
-                .CreateLogger<Program>();
-            logger.LogDebug("Starting application");
+            Console.WriteLine("Starting application");
 
             //The actual work here
             var userServiceProvider = serviceProvider.GetService<IUsersServiceProvider>();
