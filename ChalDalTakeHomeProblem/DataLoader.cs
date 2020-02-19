@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,11 +14,19 @@ namespace ChalDalTakeHomeProblem
     }
     public class DataLoader : IDataLoader
     {
-        private const string DATA_PATH= @"D:\Projects\chaldal-assignment\data";
+        //private const string DATA_PATH= @"D:\Projects\chaldal-assignment\data";
+        private readonly IConfigurationRoot _configuration;
+        private readonly string _dataPath = string.Empty;
+        public DataLoader(IConfigurationRoot configuration)
+        {
+            _configuration = configuration;
+            _dataPath = _configuration["DataPath"];
+
+        }
         public List<UserMealDishDto> LoadData()
         {
             var userMealList = new List<UserMealDishDto>();
-            foreach(var filePath in Directory.GetFiles(DATA_PATH).Where(f=>f.EndsWith(".json")))
+            foreach(var filePath in Directory.GetFiles(_dataPath).Where(f=>f.EndsWith(".json")))
             {
                 var userId = Path.GetFileNameWithoutExtension(filePath);
                 var calenDarObject = JsonConvert.DeserializeObject<CalendarData>(File.ReadAllText(filePath, Encoding.UTF8));
