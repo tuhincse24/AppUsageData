@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ChalDalTakeHomeProblem
+﻿namespace ChalDalTakeHomeProblem
 {
     public interface IUsersServiceProvider
     {

@@ -18,7 +18,6 @@ namespace ChalDalTakeHomeProblem
 
             //Setup DI
             var serviceProvider = new ServiceCollection()
-                .AddLogging()
                 .AddSingleton<IDataLoader, DataLoader>()
                 .AddSingleton<IUsersServiceProvider, UsersServiceProvider>()
                 .AddSingleton<SuperActiveUsersService>()
