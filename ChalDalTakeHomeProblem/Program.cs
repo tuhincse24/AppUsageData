@@ -9,7 +9,6 @@ namespace ChalDalTakeHomeProblem
     {
         static void Main(string[] args)
         {
-
             //Configure AppSettings
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
